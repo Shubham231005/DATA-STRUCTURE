@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include<malloc.h>
+#include<string.h>
+struct node
+{
+    char title[100];
+    struct node*next;
+};
+void insertion_at_begin(struct node**head)
+{
+ char song[100];
+ struct node*temp;
+ temp=(struct node*)malloc(sizeof(struct node));
+ printf("Enter the song=\n");
+ scanf("%s",&song);
+ strcpy(temp->title, song);
+ temp->next=*head;
+ *head=temp;
+ 
+}
+void display(struct node*head)
+{ printf("THE PLAYLIST\n");
+    struct node*p=head;
+    while(p!=NULL)
+    {
+        printf("%s\n",p->title);
+        p=p->next;
+    }
+} 
+void main()
+{
+    struct node n3={"sanjanna",NULL};
+    struct node n2={"Until i found her",&n3};
+    struct node n1={"Aashiqui",&n2};
+    struct node*head=&n1;
+   insertion_at_begin(&head);
+    char choice;
+    do {
+        insertion_at_begin(&head);  // Add a song at the beginning of the playlist
+        
+        printf("Do you want to add another song? (y/n): ");
+        scanf(" %c", &choice);  // Take user input for continuing or not
+    } while (choice == 'y' || choice == 'Y');  // Loop until user says no
+
+   display(head);
+    
+}

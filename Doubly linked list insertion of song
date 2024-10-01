@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node {
+    char title[100];
+    struct node *next;
+    struct node *prev;  // New pointer for the previous node
+};
+
+void insertion_at_begin(struct node **head) {
+    char song[100];
+    struct node *temp;
+    temp = (struct node *)malloc(sizeof(struct node));
+
+    printf("Enter the song: \n");
+    scanf("%s", song);
+    
+    strcpy(temp->title, song);  // Copy the song title
+
+    temp->next = *head;  // Link the new node to the existing list
+    temp->prev = NULL;   // Set the prev pointer of the new node to NULL
+
+    if (*head != NULL) {
+        (*head)->prev = temp;  // Set the previous pointer of the old head to the new node
+    }
+
+    *head = temp;  // Update head to point to the new node
+}
+
+void display_forward(struct node *head) {  // Forward traversal
+    printf("PLAYLIST (Forward):\n");
+    struct node *p = head;
+    while (p != NULL) {
+        printf("%s\n", p->title);
+        p = p->next;
+    }
+}
+
+void display_backward(struct node *head) {  // Backward traversal
+    printf("PLAYLIST (Backward):\n");
+    struct node *p = head;
+
+    // Traverse to the last node
+    while (p != NULL && p->next != NULL) {
+        p = p->next;
+    }
+
+    // Now p is at the last node, traverse backward
+    while (p != NULL) {
+        printf("%s\n", p->title);
+        p = p->prev;
+    }
+}
+
+int main() {
+    struct node *head = NULL;
+
+    char choice;
+    do {
+        insertion_at_begin(&head);  // Add a song at the beginning of the playlist
+        
+        printf("Do you want to add another song? (y/n): ");
+        scanf(" %c", &choice);  // Ask user if they want to continue
+    } while (choice == 'y' || choice == 'Y');  // Repeat if user inputs 'y'
+
+    display_forward(head);  // Display playlist from start to end
+    display_backward(head); // Display playlist from end to start (optional)
+
+    return 0;
+}
